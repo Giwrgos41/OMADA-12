@@ -1,12 +1,450 @@
-*.class
+/**
+ *
+ * @author OEO
+ */
+import java.io.*;
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+public class Main
+{
+    
+    
+    
+    public static void main (String [] args) throws IOException
+    {
+        
+        
+        BufferedReader myInput2 = new BufferedReader (new InputStreamReader (System.in));
+       
+        System.out.println ("\t\t\t\t\t\tKalos irthate sto paixidi Fidaki\n\n");
+        System.out.println ("\t\t\t\t\t\t\tOdhgies:");
+        System.out.println ("\t\t\t To sugkekrimeno paixnidi prosomoiwnei to gnwsto se olous mas paixnidi fidaki opou tha");
+        System.out.println ("\t\t\t exete antipalo sas ton upologisth. Ksekinate apo thn thesh 1 kai o prwtos pou tha ftasei ");
+        System.out.println ("\t\t\t sto 100 kerdizei. Se kapoia shmeia omws tha uparxoun fidia kai skales.");
+        System.out.println ("\t\t\t An pathseisete panw se kapoio fidi katebainetai merikes theseis , kai anebainetai an pathsete");
+        System.out.println ("\t\t\t\t\t\t sto katw meros mias skalas. Kalh tuxh!!!");
+        
+        
+        int counter= 100,iteration=-1; // arxikopohsh metablhtwn pou tha xrhsimopoihthoun gia thn dhmioyrgia tou tamplo paixnidiou
+        System.out.println ("-----------------------------------------------------Tamplo paixnidiou-----------------------------------------------------------------------------");
+        
+        
+        while (counter > 0){
+            if (counter%10 == 0 && counter != 100){
+                if(iteration==-1)
+                {
+                    counter-=9;
+                    iteration=1;
+                }
+                else
+                {
+                    System.out.print(counter+"\t");
+                    counter-=10;
+                    iteration=-1;
+                }
+                if(counter!=0)
+                System.out.print("\n" + counter + "\t"); 
+            }
+            else
+            System.out.print(counter + "\t"); // emfanish ths timhs tou counter
+            counter +=iteration; // prosthesh ston counter thn timh tou iteration
+        }
+        System.out.println();
+        System.out.println ("----------------------------------------------------------------------------------------------------------------------------------");
+        
+        
+        
+        
+        String sGame = "y"; // metablhth pou xrhsimopoihte gia na apothikeuei to an theloume na paiksoume
+        System.out.print ("Θέλεις να παίξεις? Y or N     >  "); // erwthsh an theloume na paiksoume
+        sGame = myInput2.readLine (); // diabazei thn eisodo tou xrhsth
+        System.out.print ("\n\n\n\n\n\n");
+        // Oso o xrhsths apantaei thetika pame sthn methodo start game
+        while (sGame.equals ("Y") || sGame.equals ("y"))
+        {
+            sGame = startGame(sGame); 
+        }
+        System.out.println ("\n\n\n\n\t\t\t\t\t\tTelos paixnidiouy"
+                + "!!");
+        
+        
+    } 
 
-# Package Files #
-*.jar
-*.war
-*.ear
+    
+    public static String startGame (String start) throws IOException // Dexetai dedomena apo thn main
+    {
+        
+        BufferedReader myInput = new BufferedReader (new InputStreamReader (System.in));
+        
+        
+        int userPosition = 1; // arxikh thesh tou paikth sto 1
+        int compPosition = 1; // arxikh thesh tou upologisth sto 1 
+        int diceRoll = 0; // dhmiourgia prwtou zariou
+        int diceRoll2 = 0; // dhmiourgia deuterou zariou
+        int userRoll = 1; // h zaria tou paikth
+        int compRoll = 1; // h zaria tou upologisth
+        String playAgain = "y"; // h metablhth pou xrhsimopoihte gia na apothikeuei to an theloume na paiksoume
+        
+        // pinakas me ta fidia kai tis skales
+        int snakesLaddersArray [] = new int [18];
+        // store the snakes and ladders location in the array
+        snakesLaddersArray [0] = 16;
+        snakesLaddersArray [1] = 47;
+        snakesLaddersArray [2] = 49;
+        snakesLaddersArray [3] = 56;
+        snakesLaddersArray [4] = 62;
+        snakesLaddersArray [5] = 64;
+        snakesLaddersArray [6] = 87;
+        snakesLaddersArray [7] = 93;
+        snakesLaddersArray [8] = 95;
+        snakesLaddersArray [9] = 98;
+        snakesLaddersArray [10] = 4; 
+        snakesLaddersArray [11] = 9;
+        snakesLaddersArray [12] = 21;
+        snakesLaddersArray [13] = 28;
+        snakesLaddersArray [14] = 36;       
+        snakesLaddersArray [15] = 51;
+        snakesLaddersArray [16] = 71;
+        snakesLaddersArray [17] = 80;
+                 
+        while (playAgain.equals ("y") || playAgain.equals ("Y")) //elegxos gia thn sunexeia tou paixnidiou
+        {
+            
+            
+            // h zaries tou paikth kai tou upologisth
+            userRoll =  getDice(diceRoll, diceRoll2); // kaleitai h methodos getdice gia ton paikth
+            compRoll =  getDice(diceRoll, diceRoll2); // to idio kai gia ton upologisth
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+            System.out.println ("\t\t\t\t\t------------------------------------------");
+            System.out.println ("\t\t\t\t\t|\tΈτυχες " + userRoll + "\t\t|");
+            System.out.println ("\t\t\t\t\t|\tΟ υπολογιστής έτυχε " + compRoll + "\t|");
+            System.out.println ("\t\t\t\t\t------------------------------------------");
+           
+            userPosition = userPosition + userRoll;
+            compPosition = compPosition + compRoll;
+            
+            
+            
+            // elegxos gia to an o paikths epese se fidi h skala
+            // pernaei sthn getP tis apariathtes plhrofories kai pairnei pisw thn nea thesh tou paikth
+            userPosition = getP(userPosition, userRoll, snakesLaddersArray);
+            // to idio kai gia ton upologisth(me tis times gia ton upologisth)
+            compPosition = compgetP(compPosition, compRoll, snakesLaddersArray, userPosition);
+            
+            System.out.println("\t\t\t*************************************************************************");
+            System.out.println ("\t\t\t*\t\tΒρίσκεσαι στη θέση " + userPosition + "\t\t\t*");
+            System.out.println ("\t\t\t*\t\tΟ υπολογιστής βρίσκεται στην θέση  " + compPosition + "\t\t*"); 
+            System.out.println("\t\t\t*************************************************************************");
+            
+            // arxikopoihsh twn timwn twn thesewn meta to telos tou paixnidiou
+            // gia na mporei na ksanapaiksei o xrhsths an thelei
+            if (userPosition == 100 || compPosition == 100)
+            {
+                userPosition = 1;
+                compPosition = 1;
+                System.out.print ("Θέλεις να παίξεις? Ν ή Ο     >  ");
+                playAgain = myInput.readLine ();
+                System.out.print ("\n\n\n\n\n\n\n\n\n\n\n\n");
+            }
+            else
+            {
+                
+                System.out.print ("Θέλεις να παίξεις? Ν ή Ο     >  ");
+                playAgain = myInput.readLine ();
+                
+            }
+            
+            
+        }
+        
+        return playAgain; 
+    }
+    
+    
+    
+    /* Methodos getDice:
+    Auth h methodos upologizei thn zaria gia ton paikth kai ton upologisth
+    */
+    public static int getDice (int diceRoll, int diceRoll2)
+    {
+        diceRoll = (int)(Math.random()*6 )+1 ; //upologizei to prwto zari
+        diceRoll2 = (int)(Math.random()*6 )+1 ; //upologizei to deutero zari
+        int move = diceRoll + diceRoll2; // athroizei ta duo zaria se mia metablhth
+        return move; // epistrefei thn metablhth move
+    }
+  
+    
+    
+    /*
+    Methodos getP:
+    
+    Auth h methodos elegxei an o paikths epese panw se fidi h skala
+    kai epeita allazei katalhla thn thesh tou paikth.
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+    */
+    public static int getP (int userPosition, int userRoll, int snakesLaddersArray []) throws IOException 
+    {
+        
+        
+        
+        if(userPosition == snakesLaddersArray[0]) 
+        {
+            userPosition = 6; 
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se fidi, Katebaineis!!!!~~~~~~~~~~~~~");
+        }
+        else if (userPosition == snakesLaddersArray[1])
+        {
+            userPosition = 26;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se fidi, Katebaineis!!!!~~~~~~~~~~~~~");
+            
+        }
+        
+        else if (userPosition == snakesLaddersArray[2])
+        {
+            userPosition = 11;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se fidi, Katebaineis!!!!~~~~~~~~~~~~~");
+        }
+            else if (userPosition == snakesLaddersArray[3]) //if position equals snake 3
+        {
+            userPosition = 53;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se fidi, Katebaineis!!!!~~~~~~~~~~~~~");
+        }
+           else if (userPosition == snakesLaddersArray[4]) //if position equals snake 3
+        {
+            userPosition = 19;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se fidi, Katebaineis!!!!~~~~~~~~~~~~~");
+        } 
+           else if (userPosition == snakesLaddersArray[5]) //if position equals snake 3
+        {
+            userPosition = 60;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se fidi, Katebaineis!!!!~~~~~~~~~~~~~");
+        }
+           else if (userPosition == snakesLaddersArray[6]) //if position equals snake 3
+        {
+            userPosition = 24;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se fidi, Katebaineis!!!!~~~~~~~~~~~~~");
+        }
+           else if (userPosition == snakesLaddersArray[7]) //if position equals snake 3
+        {
+            userPosition = 73;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se fidi, Katebaineis!!!!~~~~~~~~~~~~~");
+        }
+           else if (userPosition == snakesLaddersArray[8]) //if position equals snake 3
+        {
+            userPosition = 75;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se fidi, Katebaineis!!!!~~~~~~~~~~~~~");
+        }
+           else if (userPosition == snakesLaddersArray[9]) //if position equals snake 3
+        {
+            userPosition = 78;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se fidi, Katebaineis!!!!~~~~~~~~~~~~~");
+        }
+           else if (userPosition == snakesLaddersArray[10])
+        {
+            userPosition = 14; 
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se skala, Anebaineis!!!~~~~~~~~~~~~~");
+            
+        }
+          else if (userPosition == snakesLaddersArray[11])
+        {
+            userPosition = 31; 
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se skala, Anebaineis!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (userPosition == snakesLaddersArray[12])
+        {
+            userPosition = 42; 
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se skala, Anebaineis!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (userPosition == snakesLaddersArray[13])
+        {
+            userPosition = 84; 
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se skala, Anebaineis!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (userPosition == snakesLaddersArray[14])
+        {
+            userPosition = 44; 
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se skala, Anebaineis!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (userPosition == snakesLaddersArray[15])
+        {
+            userPosition = 67; 
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se skala, Anebaineis!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (userPosition == snakesLaddersArray[16])
+        {
+            userPosition = 91; 
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se skala, Anebaineis!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (userPosition == snakesLaddersArray[17])
+        {
+            userPosition = 100; 
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~Epeses panw se skala, Anebaineis!!!~~~~~~~~~~~~~");
+            
+        }
+           
+           
+           
+        if (userPosition < 0 || userPosition > 112) //elegxos gia sfalmata tou paixnidiou
+        {
+            System.out.println ("Proekupse kapoio lathos, parakalw epanekinhste to paixnidi!!!!!!");
+        }
+        
+        else if (userPosition > 100) 
+        {
+            userPosition = 100 - ( userPosition - 100 );
+            System.out.println ("Den mporeis na kseperaseis to 100, prepei na ftaseis akribws!!!"); 
+            
+        }
+        else if (userPosition == 100)
+        {
+            System.out.println ("Kerdises!!!");
+            
+        }
+        
+        
+        
+        return userPosition; 
+    }
+    
+    
+   
+    /*
+    Methodos compgetP:
+    
+    Auth h methodos elegxei an o upologisths epese panw se fidi h skala
+    kai epeita allazei katalhla thn thesh tou paikth.
+
+    */
+    public static int compgetP (int compPosition, int compRoll, int snakesLaddersArray [], int userPosition) throws IOException
+    {
+        
+        
+        
+     
+        
+        if(compPosition == snakesLaddersArray[0])
+        {
+            compPosition = 6;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se fidi, Katebainei!!!~~~~~~~~~~~~~");
+            
+            
+        }
+        else if (compPosition == snakesLaddersArray[1])
+        {
+            compPosition = 26;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se fidi, Katebainei!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (compPosition == snakesLaddersArray[2])
+        {
+            compPosition = 11;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se fidi, Katebainei!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (compPosition == snakesLaddersArray[3])
+        {
+            compPosition = 53;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se fidi, Katebainei!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (compPosition == snakesLaddersArray[4])
+        {
+            compPosition = 19;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se fidi, Katebainei!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (compPosition == snakesLaddersArray[5])
+        {
+            compPosition = 60;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se fidi, Katebainei!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (compPosition == snakesLaddersArray[6])
+        {
+            compPosition = 24;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se fidi, Katebainei!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (compPosition == snakesLaddersArray[7])
+        {
+            compPosition = 73;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se fidi, Katebainei!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (compPosition == snakesLaddersArray[8])
+        {
+            compPosition = 75;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se fidi, Katebainei!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (compPosition == snakesLaddersArray[9])
+        {
+            compPosition = 78;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se fidi, Katebainei!!!~~~~~~~~~~~~~");
+            
+        }
+        else if (compPosition == snakesLaddersArray[10])
+        {
+            compPosition = 14;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se skala, Anebainei!!!~~~~~~~~~~~~~");
+        }
+        else if (compPosition == snakesLaddersArray[11])
+        {
+            compPosition = 31;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se skala, Anebainei!!!~~~~~~~~~~~~~");
+        }
+        else if (compPosition == snakesLaddersArray[12])
+        {
+            compPosition = 42;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se skala, Anebainei!!!~~~~~~~~~~~~~");
+        }
+        else if (compPosition == snakesLaddersArray[13])
+        {
+            compPosition = 84;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se skala, Anebainei!!!~~~~~~~~~~~~~");
+        }
+        else if (compPosition == snakesLaddersArray[14])
+        {
+            compPosition = 44;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se skala, Anebainei!!!~~~~~~~~~~~~~");
+        }
+        else if (compPosition == snakesLaddersArray[15])
+        {
+            compPosition = 67;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se skala, Anebainei!!!~~~~~~~~~~~~~");
+        }
+        else if (compPosition == snakesLaddersArray[16])
+        {
+            compPosition = 91;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se skala, Anebainei!!!~~~~~~~~~~~~~");
+        }
+        else if (compPosition == snakesLaddersArray[17])
+        {
+            compPosition = 100;
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se skala, Anebainei!!!~~~~~~~~~~~~~");
+        }
+        
+        if (compPosition < 0 || compPosition > 112) //elegxos gia sfalmata
+        {
+            System.out.println ("\t\t\t\t~~~~~~~~~~~~~O upologisths epese panw se skala, Anebainei!!!~~~~~~~~~~~~~");
+        }
+        
+        else if (compPosition > 100)
+        {
+            compPosition = 100 - (compPosition - 100);
+            System.out.println ("O upologisths den mporei na perasei ta 100, prepei na ftasei akribws"); 
+        }
+        else if (compPosition == 100 && userPosition != 100)
+        {
+            System.out.println ("O upologisths eftase sta 100, Exases!!!");
+            
+        }
+        
+        return compPosition;
+    } 
+    }
